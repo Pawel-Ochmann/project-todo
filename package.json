@@ -1,0 +1,29 @@
+{
+  "name": "project-todo",
+  "version": "1.0.0",
+  "description": "Next step is to build to do application. The goals are to: 1. Set up whole webpack config, add sass to css transformation this time. 2. install both eslint and prettier, make them to work together 3. keep objects (tasks and projects) in diffrent modules, separete login from dom implementation 4. use external library through npm package, font awesome icons, but also at least one function 5. learn and use localStorage to keep users data there",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "serve": "webpack-dev-server --open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "html-webpack-plugin": "^5.5.1",
+    "prettier": "^2.8.8",
+    "sass": "^1.62.1",
+    "sass-loader": "^13.3.1",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.85.1",
+    "webpack-cli": "^5.1.3",
+    "webpack-dev-server": "^4.15.0"
+  }
+}
