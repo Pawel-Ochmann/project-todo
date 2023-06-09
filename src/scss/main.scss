@@ -42,7 +42,7 @@ header {
     font-size: 2rem;
     & > span {
       font-family: 'mainFont';
-      color: grey;
+      color: var(--secondaryColor);
       font-weight: bold;
       font-size: 3rem;
     }
@@ -113,8 +113,8 @@ main {
       font-weight: bold;
       transition: 0.3s;
       border: none;
-      color: rgb(53, 53, 53);
-      background-color: rgb(21, 161, 21);
+      color: black;
+      background-color: var(--secondaryColor);
       border-radius: 0.5rem;
       padding: 0.3rem 0.5rem;
       box-shadow: var(--mainColor);
@@ -129,10 +129,38 @@ main {
 }
 
 dialog {
-  width: 10rem;
-  height: 10rem;
-  position: absolute;
-  top: 10rem;
-  left: 10rem;
-  background-color: red;
+  display: grid;
+  gap: 0.5rem;
+  width: 60%;
+  grid-template-columns: 1fr 1fr;
+
+  h2 {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-weight: 1.5rem;
+    grid-column: span 2;
+  }
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column: span 2;
+
+    & > :not(div) {
+      grid-column: span 2;
+    }
+
+    input,
+    textarea {
+      margin-bottom: 0.5rem;
+    }
+
+    div {
+      width: minmax(40% 5rem);
+      display: flex;
+      flex-direction: column;
+    }
+    &>div:last-of-type {
+      justify-self: end;
+    }
+  }
 }

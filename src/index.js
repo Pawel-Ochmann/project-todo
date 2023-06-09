@@ -1,6 +1,6 @@
 import './scss/main.scss';
+import createProject from './addProject';
 
-const body = document.querySelector('body');
 const header = document.querySelector('header');
 window.addEventListener('scroll', () => {
   if (window.pageYOffset > 100) {
@@ -10,11 +10,5 @@ window.addEventListener('scroll', () => {
   }
 });
 
-function createProject() {
-  const addProjectForm = document.createElement('dialog');
-  addProjectForm.textContent = 'This is a project form!';
-  body.appendChild(addProjectForm);
-  addProjectForm.showModal();
-}
 const addProjectButton = document.querySelector('.projectHeader>button');
 addProjectButton.addEventListener('click', createProject);
