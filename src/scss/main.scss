@@ -1,5 +1,40 @@
-.test {
-  width: 100px;
-  height: 100px;
-  background-color: red;
+@font-face {
+  font-family: 'mainFont';
+  src: url(../fonts/mainFont/GochiHand-Regular.ttf);
+}
+@font-face {
+  font-family: 'secondaryFont';
+  src: url(../fonts/secondaryFont/Dosis-VariableFont_wght.ttf);
+}
+
+:root {
+  --mainColor:#60a5fa;
+  --secondaryColor:#2563eb;
+  --mainShadow:8px 8px 24px -9px rgba(66, 68, 90, 1);
+  --secondaryShadow:8px 8px 24px 4px rgba(66, 68, 90, 1);
+}
+
+
+i,
+span {
+  color: red;
+  font-size: 50px;
+}
+
+html {
+  font-family: 'mainFont';
+  font-size: 3rem;
+  & div:first-of-type {
+    background-color: var(--mainColor);
+    box-shadow: var(--mainShadow);
+    width: 5rem;
+    height: 5rem;
+  }
+  & div:last-of-type {
+    background-color: var(--secondaryColor);
+    box-shadow:var(--secondaryShadow);
+    width: 5rem;
+    height: 5rem;
+  }
+  
 }
