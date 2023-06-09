@@ -18,7 +18,11 @@
 }
 
 body {
-  background: var(--mainColor);
+  background: linear-gradient(
+    135deg,
+    var(--mainColor) 10%,
+    var(--secondaryColor) 100%
+  );
 }
 html {
   font-family: 'secondaryFont';
@@ -28,9 +32,10 @@ header {
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 1);
   padding: 1rem;
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
 
   & h1 {
@@ -65,17 +70,69 @@ header {
       background-color: white;
       transition: 0.5s;
       cursor: pointer;
+      box-shadow: var(--mainShadow);
     }
     i:hover,
     button:hover {
       background-color: var(--mainColor);
       transform: translateY(-2px);
-      box-shadow: var(--mainShadow);
+      box-shadow: var(--secondaryShadow);
+    }
+  }
+}
+.sticky {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+main {
+  box-sizing: border-box;
+  width: 100%;
+  margin: auto;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 2rem 1rem;
+  & > * {
+    background-color: #fff;
+    border-radius: 1rem;
+  }
+  .projectHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem 0.5rem 1rem;
+    border-bottom: 1px solid black;
+    h2 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    button {
+      font-size: 1rem;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      color: rgb(53, 53, 53);
+      background-color: rgb(21, 161, 21);
+      border-radius: 0.5rem;
+      padding: 0.3rem 0.5rem;
+      box-shadow: var(--mainColor);
+    }
+    button:hover {
+      box-shadow: var(--secondaryShadow);
+      transform: translateY(-2px);
+      outline: none;
+      border: none;
     }
   }
 }
 
-main {
-  padding-top: 10rem;
-  font-size: 5rem;
+dialog {
+  width: 10rem;
+  height: 10rem;
+  position: absolute;
+  top: 10rem;
+  left: 10rem;
+  background-color: red;
 }
