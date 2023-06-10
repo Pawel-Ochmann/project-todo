@@ -1,10 +1,19 @@
 export default function () {
+  const existingDialog = document.querySelector('dialog');
+  if (existingDialog) {
+    return;
+  }
   const body = document.querySelector('body');
   const addProjectForm = document.createElement('dialog');
+  const overlay = document.querySelector('.overlay');
+  overlay.classList.add('dialogOpen');
 
   const header = document.createElement('h2');
   header.textContent = 'Create new Project!';
   addProjectForm.appendChild(header);
+  const closeMark = document.createElement('i');
+  closeMark.classList.add('fa-solid', 'fa-xmark');
+  addProjectForm.appendChild(closeMark);
   const form = document.createElement('form');
   const titleLabel = document.createElement('label');
   titleLabel.setAttribute('for', 'title');
@@ -50,4 +59,14 @@ export default function () {
   addProjectForm.appendChild(buttonAdd);
   body.appendChild(addProjectForm);
   addProjectForm.showModal();
+
+  // handle closing dialog function
+  function closingDialog(event) {
+    event.stopPropagation();
+    body.removeChild(addProjectForm);
+    addProjectForm.open = false;
+    overlay.classList.remove('dialogOpen');
+  }
+  closeMark.addEventListener('click', closingDialog);
+  buttonCancel.addEventListener('click', closingDialog);
 }

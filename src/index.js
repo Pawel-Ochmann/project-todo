@@ -11,4 +11,4 @@ window.addEventListener('scroll', () => {
 });
 
 const addProjectButton = document.querySelector('.projectHeader>button');
-addProjectButton.addEventListener('click', createProject);
+addProjectButton.addEventListener('click', () => createProject());
