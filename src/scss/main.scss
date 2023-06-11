@@ -233,3 +233,8 @@ dialog[open] {
     width: 60%;
   }
 }
+
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+}
