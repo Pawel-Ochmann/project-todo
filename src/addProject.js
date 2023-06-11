@@ -3,29 +3,92 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import projectHandler from './projectHandler';
 import storage from './localStorageHandler';
 
+function changeDateFunction(project) {
+  const existingDialog = document.querySelector('dialog');
+  if (existingDialog) {
+    return;
+  }
+  const body = document.querySelector('body');
+  const dateDialog = document.createElement('dialog');
+  const overlay = document.querySelector('.overlay');
+  overlay.classList.add('dialogOpen');
+  const closeMark = document.createElement('i');
+  closeMark.classList.add('fa-solid', 'fa-xmark');
+  function closingDialog() {
+    body.removeChild(dateDialog);
+    dateDialog.open = false;
+    overlay.classList.remove('dialogOpen');
+  }
+  closeMark.addEventListener('click', closingDialog);
+  dateDialog.appendChild(closeMark);
+  const dateInput = document.createElement('input');
+  dateInput.type = 'date';
+  dateInput.value = project.date;
+  dateDialog.appendChild(dateInput);
+  const changeButton = document.createElement('button');
+  changeButton.textContent = 'Change';
+  changeButton.addEventListener('click', () => {
+    storage.changeDate(project);
+    closingDialog();
+  });
+  dateDialog.appendChild(changeButton);
+  body.appendChild(dateDialog);
+  dateDialog.showModal();
+}
+
+function displayProject(project) {
+  const container = document.querySelector('.displayProject');
+  container.innerHTML = '';
+  const projectHeader = document.createElement('h1');
+  projectHeader.textContent = project.title;
+  container.appendChild(projectHeader);
+  const dateContainer = document.createElement('fieldset');
+  const deadline = document.createElement('p');
+  deadline.textContent = project.date;
+  dateContainer.appendChild(deadline);
+  const changeDate = document.createElement('button');
+  changeDate.textContent = 'change';
+  changeDate.addEventListener('click', () => {
+    changeDateFunction(project);
+  });
+  dateContainer.appendChild(changeDate);
+  const timeLeft = document.createElement('p');
+  timeLeft.textContent = `Time left: ${formatDistanceToNow(
+    Date.parse(project.date)
+  )}`;
+  dateContainer.appendChild(timeLeft);
+  container.appendChild(dateContainer);
+}
+
 function appendNewProject(project) {
   const projectContainer = document.querySelector('.projectContainer');
   const box = document.createElement('div');
   const projectHeader = document.createElement('h3');
   projectHeader.textContent = project.title;
   const priority = document.createElement('p');
-  if (project.priority === 0) {
+  if (+project.priority === 0) {
     priority.textContent = `Priority: low`;
-  } else if (project.priority === 1) {
+  } else if (+project.priority === 1) {
     priority.textContent = `Priority: medium`;
-  } else priority.textContent = 'Priority: important';
+  } else priority.textContent = 'Priority: high';
   const timeLeft = document.createElement('p');
 
   timeLeft.textContent = `Time left: ${formatDistanceToNow(
     Date.parse(project.date)
   )}`;
+  const taskCounter = document.createElement('p');
+  taskCounter.textContent = `Tasks done: ${project.taskDone.length}/${project.taskActive.length}`;
   const description = document.createElement('p');
-  description.textContent = project.description;
+  description.textContent = `Notes: ${project.description}`;
   box.appendChild(projectHeader);
   box.appendChild(priority);
   box.appendChild(timeLeft);
+  box.appendChild(taskCounter);
   box.appendChild(description);
   projectContainer.appendChild(box);
+  box.addEventListener('click', () => {
+    displayProject(storage.getProject(project.title));
+  });
 }
 
 function addNewProject(titleValue, descriptionValue, dateValue, priorityValue) {
@@ -131,4 +194,9 @@ function createProject() {
   });
 }
 
-export default { createProject, addNewProject, appendNewProject };
+export default {
+  createProject,
+  addNewProject,
+  appendNewProject,
+  displayProject,
+};

@@ -14,4 +14,11 @@ function removeProject(title) {
   window.localStorage.removeItem(title);
 }
 
-export default { putProject, getProject, clearProject, removeProject };
+function changeDate(project, newDate) {
+  const projectUpdated = getProject(project);
+  localStorage.removeItem(project);
+  projectUpdated.date = newDate;
+  putProject(project);
+}
+
+export default { putProject, getProject, clearProject, removeProject, changeDate };

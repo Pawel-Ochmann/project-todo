@@ -5,6 +5,8 @@ export default function(title, description, date, priority) {
         this.description = description;
         this.date = date;
         this.priority = priority;
+        this.taskActive = [];
+        this.taskDone = [];
     }
  }
 
