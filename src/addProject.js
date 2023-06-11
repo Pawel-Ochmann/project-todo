@@ -1,3 +1,7 @@
+import endOfToday from 'date-fns/endOfToday';
+import projectHandler from './projectHandler';
+import storage from './localStorageHandler';
+
 export default function () {
   const existingDialog = document.querySelector('dialog');
   if (existingDialog) {
@@ -34,7 +38,8 @@ export default function () {
   dateLabel.setAttribute('for', 'date');
   dateLabel.textContent = 'Date';
   const dateInput = document.createElement('input');
-  dateInput.type = 'date';
+  dateInput.type = 'datetime-local';
+  dateInput.value = endOfToday();
   dateInput.name = 'date';
   dateContainer.appendChild(dateLabel);
   dateContainer.appendChild(dateInput);
@@ -55,18 +60,38 @@ export default function () {
   buttonCancel.textContent = 'Cancel';
   const buttonAdd = document.createElement('button');
   buttonAdd.textContent = 'Add';
+  buttonAdd.disabled = true;
   addProjectForm.appendChild(buttonCancel);
   addProjectForm.appendChild(buttonAdd);
   body.appendChild(addProjectForm);
   addProjectForm.showModal();
 
   // handle closing dialog function
-  function closingDialog(event) {
-    event.stopPropagation();
+  function closingDialog() {
     body.removeChild(addProjectForm);
     addProjectForm.open = false;
     overlay.classList.remove('dialogOpen');
   }
   closeMark.addEventListener('click', closingDialog);
   buttonCancel.addEventListener('click', closingDialog);
+
+  function enableAddButton() {
+    if (titleInput.value && dateInput.value) {
+      buttonAdd.disabled = false;
+    } else buttonAdd.disabled = true;
+  }
+
+  titleInput.addEventListener('change', enableAddButton);
+  dateInput.addEventListener('change', enableAddButton);
+
+  function addNewProject() {
+    const title = titleInput.value;
+    const description = descriptionInput.value;
+    const date = dateInput.value;
+    const priority = priorityInput.value;
+
+    storage.putProject(projectHandler(title, description, date, priority));
+    console.log(storage.getProject(title));
+  }
+  buttonAdd.addEventListener('click', addNewProject);
 }

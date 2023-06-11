@@ -187,7 +187,11 @@ dialog {
     transition: 0.3s;
     font-family: 'secondaryFont';
   }
-  button:hover {
+  button:disabled {
+    border: 2px solid rgb(173, 173, 173);
+  }
+
+  button:hover:not([disabled]) {
     transform: translateY(-4px);
     background-color: var(--mainColor);
   }
