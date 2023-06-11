@@ -15,8 +15,14 @@ const addProjectButton = document.querySelector('.projectHeader>button');
 addProjectButton.addEventListener('click', () => createProject.createProject());
 
 function loadProjects() {
+  const projectContainer = document.querySelector('.projectContainer');
+  projectContainer.innerHTML ='';
   Object.keys(localStorage).forEach((key) => {
-
+    createProject.appendNewProject(storage.getProject(key));
   })
 }
 
+loadProjects();
+
+const btnClear = document.querySelector('button.clear');
+btnClear.addEventListener('click', storage.clearProject);
