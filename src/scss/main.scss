@@ -237,4 +237,13 @@ dialog[open] {
 .projectContainer {
   display: flex;
   flex-direction: column;
+  div {
+    display: flex;
+    flex-direction: column;
+    h3 {
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
 }

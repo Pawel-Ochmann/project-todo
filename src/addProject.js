@@ -3,7 +3,42 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import projectHandler from './projectHandler';
 import storage from './localStorageHandler';
 
-export default function () {
+function appendNewProject(project) {
+  const projectContainer = document.querySelector('.projectContainer');
+  const box = document.createElement('div');
+  const projectHeader = document.createElement('h3');
+  projectHeader.textContent = project.title;
+  const priority = document.createElement('p');
+  if (project.priority === 0) {
+    priority.textContent = `Priority: low`;
+  } else if (project.priority === 1) {
+    priority.textContent = `Priority: medium`;
+  } else priority.textContent = 'Priority: important';
+  const timeLeft = document.createElement('p');
+
+  timeLeft.textContent = `Time left: ${formatDistanceToNow(
+    Date.parse(project.date)
+  )}`;
+  const description = document.createElement('p');
+  description.textContent = project.description;
+  box.appendChild(projectHeader);
+  box.appendChild(priority);
+  box.appendChild(timeLeft);
+  box.appendChild(description);
+  projectContainer.appendChild(box);
+}
+
+function addNewProject(titleValue, descriptionValue, dateValue, priorityValue) {
+  const title = titleValue;
+  const description = descriptionValue;
+  const date = dateValue;
+  const priority = priorityValue;
+
+  storage.putProject(projectHandler(title, description, date, priority));
+  appendNewProject(storage.getProject(title));
+}
+
+function createProject() {
   const existingDialog = document.querySelector('dialog');
   if (existingDialog) {
     return;
@@ -85,41 +120,15 @@ export default function () {
   titleInput.addEventListener('change', enableAddButton);
   dateInput.addEventListener('change', enableAddButton);
 
-  function appendNewProject(project) {
-    console.log(project);
-    const projectContainer = document.querySelector('.projectContainer');
-    const box = document.createElement('div');
-    const projectHeader = document.createElement('h3');
-    projectHeader.textContent = project.title;
-    const priority = document.createElement('p');
-    if (project.priority === 0) {
-      priority.textContent = `Priority: low`;
-    } else if (project.priority === 1) {
-      priority.textContent = `Priority: medium`;
-    } else priority.textContent = 'Priority: important';
-    const timeLeft = document.createElement('p');
-
-    timeLeft.textContent = `Time left: ${formatDistanceToNow(
-      Date.parse(project.date)
-    )}`;
-    const description = document.createElement('p');
-    description.textContent = project.description;
-    box.appendChild(projectHeader);
-    box.appendChild(priority);
-    box.appendChild(timeLeft);
-    box.appendChild(description);
-    projectContainer.appendChild(box);
-  }
-  function addNewProject() {
-    const title = titleInput.value;
-    const description = descriptionInput.value;
-    const date = dateInput.value;
-    const priority = priorityInput.value;
-
-    storage.putProject(projectHandler(title, description, date, priority));
-    appendNewProject(storage.getProject(title));
+  buttonAdd.addEventListener('click', () => {
+    addNewProject(
+      titleInput.value,
+      descriptionInput.value,
+      dateInput.value,
+      priorityInput.value
+    );
     closingDialog();
-  }
-
-  buttonAdd.addEventListener('click', addNewProject);
+  });
 }
+
+export default { createProject, addNewProject, appendNewProject };
