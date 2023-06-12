@@ -1,5 +1,11 @@
+function triggerStorageEvent() {
+  const storageEvent = new Event('storage');
+  window.dispatchEvent(storageEvent);
+}
+
 function putProject(project) {
   window.localStorage.setItem(project.title, JSON.stringify(project));
+  triggerStorageEvent();
 }
 
 function getProject(title) {
@@ -15,10 +21,16 @@ function removeProject(title) {
 }
 
 function changeDate(project, newDate) {
-  const projectUpdated = getProject(project);
+  const projectUpdated = getProject(project.title);
   localStorage.removeItem(project);
   projectUpdated.date = newDate;
-  putProject(project);
+  putProject(projectUpdated);
 }
 
-export default { putProject, getProject, clearProject, removeProject, changeDate };
+export default {
+  putProject,
+  getProject,
+  clearProject,
+  removeProject,
+  changeDate,
+};

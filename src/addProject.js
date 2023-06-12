@@ -10,6 +10,7 @@ function changeDateFunction(project) {
   }
   const body = document.querySelector('body');
   const dateDialog = document.createElement('dialog');
+  dateDialog.classList.add('changeDateDialog');
   const overlay = document.querySelector('.overlay');
   overlay.classList.add('dialogOpen');
   const closeMark = document.createElement('i');
@@ -22,13 +23,13 @@ function changeDateFunction(project) {
   closeMark.addEventListener('click', closingDialog);
   dateDialog.appendChild(closeMark);
   const dateInput = document.createElement('input');
-  dateInput.type = 'date';
+  dateInput.type = 'datetime-local';
   dateInput.value = project.date;
   dateDialog.appendChild(dateInput);
   const changeButton = document.createElement('button');
   changeButton.textContent = 'Change';
   changeButton.addEventListener('click', () => {
-    storage.changeDate(project);
+    storage.changeDate(project, dateInput.value);
     closingDialog();
   });
   dateDialog.appendChild(changeButton);
@@ -39,15 +40,21 @@ function changeDateFunction(project) {
 function displayProject(project) {
   const container = document.querySelector('.displayProject');
   container.innerHTML = '';
+  window.addEventListener('storage', () => {
+    displayProject(storage.getProject(project.title));
+  });
   const projectHeader = document.createElement('h1');
   projectHeader.textContent = project.title;
   container.appendChild(projectHeader);
   const dateContainer = document.createElement('fieldset');
+  const legend = document.createElement('legend');
+  legend.textContent = 'Deadline';
+  dateContainer.appendChild(legend);
   const deadline = document.createElement('p');
   deadline.textContent = project.date;
   dateContainer.appendChild(deadline);
-  const changeDate = document.createElement('button');
-  changeDate.textContent = 'change';
+  const changeDate = document.createElement('i');
+  changeDate.classList.add('fa-solid', 'fa-pen-to-square');
   changeDate.addEventListener('click', () => {
     changeDateFunction(project);
   });
@@ -108,6 +115,7 @@ function createProject() {
   }
   const body = document.querySelector('body');
   const addProjectForm = document.createElement('dialog');
+  addProjectForm.classList.add('dialogAnimation');
   const overlay = document.querySelector('.overlay');
   overlay.classList.add('dialogOpen');
 
