@@ -46,6 +46,31 @@ function displayProject(project) {
   const projectHeader = document.createElement('h1');
   projectHeader.textContent = project.title;
   container.appendChild(projectHeader);
+  const priorityContainer = document.createElement('fieldset');
+  const priorityLegend = document.createElement('legend');
+  priorityLegend.textContent = 'Priority';
+  priorityContainer.appendChild(priorityLegend);
+  let starCounter = +project.priority;
+  for (let i = 0; i < 3; i += 1) {
+    const icon = document.createElement('i');
+    if (starCounter >= 0) {
+      icon.classList.add('fa-solid', 'fa-star');
+      icon.dataset.priority = i;
+      starCounter -= 1;
+    } else {
+      icon.classList.add('fa-regular', 'fa-star');
+      icon.dataset.priority = i;
+    }
+    priorityContainer.appendChild(icon);
+  }
+  container.appendChild(priorityContainer);
+  const icons = document.querySelectorAll('i[data-priority]');
+  icons.forEach((e) => {
+    e.addEventListener('click', (event) => {
+      const { priority } = event.currentTarget.dataset;
+      storage.changePriority(project, priority);
+    });
+  });
   const dateContainer = document.createElement('fieldset');
   const legend = document.createElement('legend');
   legend.textContent = 'Deadline';

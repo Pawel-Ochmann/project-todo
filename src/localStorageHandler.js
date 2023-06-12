@@ -27,10 +27,18 @@ function changeDate(project, newDate) {
   putProject(projectUpdated);
 }
 
+function changePriority(project, newPriority) {
+  const projectUpdated = getProject(project.title);
+  localStorage.removeItem(project);
+  projectUpdated.priority = newPriority;
+  putProject(projectUpdated);
+}
+
 export default {
   putProject,
   getProject,
   clearProject,
   removeProject,
   changeDate,
+  changePriority
 };
