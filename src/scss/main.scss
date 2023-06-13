@@ -335,4 +335,36 @@ dialog.changeDateDialog {
       justify-content: center;
     }
   }
+  div.taskDoneBox {
+    color: grey;
+    border-bottom: 1px solid grey;
+    i {
+      color: inherit;
+    }
+    i:hover {
+      transform: none;
+    }
+  }
+  fieldset:last-of-type {
+    p {
+      padding: .5rem;
+      font-weight: 500;
+    }
+  }
+
+  p.noteEdit {
+    animation: rotateBorder 0.3s infinite linear;
+    background: linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
+      linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
+      linear-gradient(0deg, #333 50%, transparent 0) repeat-y,
+      linear-gradient(0deg, #333 50%, transparent 0) repeat-y;
+    background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+  }
+
+  @keyframes rotateBorder {
+    100% {
+      background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
+    }
+  }
 }

@@ -43,15 +43,26 @@ function addTask(project, newTask) {
   putProject(projectUpdated);
 }
 
-function removeTask(project, taskRemoved) {
+function removeTask(project, index) {
   const projectUpdated = getProject(project.title);
   localStorage.removeItem(project);
-  projectUpdated.taskActive = projectUpdated.taskActive.filter((e) => e !== taskRemoved);
+  projectUpdated.taskActive.splice(index, 1);
   putProject(projectUpdated);
 }
 
-function checkTask(project) {}
+function checkTask(project, index) {
+  const projectUpdated = getProject(project.title);
+  localStorage.removeItem(project);
+  projectUpdated.taskDone.unshift(projectUpdated.taskActive.splice(index, 1));
+  putProject(projectUpdated);
+}
 
+function changeNotes(project, newNote) {
+  const projectUpdated = getProject(project.title);
+  localStorage.removeItem(project);
+  projectUpdated.description = newNote;
+  putProject(projectUpdated);
+}
 
 export default {
   putProject,
@@ -63,4 +74,5 @@ export default {
   addTask,
   removeTask,
   checkTask,
+  changeNotes,
 };

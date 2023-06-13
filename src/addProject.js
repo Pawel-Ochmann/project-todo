@@ -3,26 +3,56 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import projectHandler from './projectHandler';
 import storage from './localStorageHandler';
 
-function appendTask(task) {
+function appendTask(task, counter, project) {
   const taskContainer = document.querySelector('.taskContainer');
   const taskBox = document.createElement('div');
   taskBox.classList.add('taskBox');
   const taskText = document.createElement('p');
   taskText.textContent = task;
   const checkIcon = document.createElement('i');
+  checkIcon.dataset.index = counter;
   checkIcon.classList.add('fa-solid', 'fa-check');
   const removeIcon = document.createElement('i');
+  removeIcon.dataset.index = counter;
   removeIcon.classList.add('fa-solid', 'fa-trash');
   taskBox.appendChild(taskText);
   taskBox.appendChild(checkIcon);
   taskBox.appendChild(removeIcon);
 
   taskContainer.appendChild(taskBox);
+  removeIcon.addEventListener('click', (e) => {
+    const taskIndex = e.currentTarget.dataset.index;
+    storage.removeTask(project, taskIndex);
+  });
+  checkIcon.addEventListener('click', (e) => {
+    const taskIndex = e.currentTarget.dataset.index;
+    storage.checkTask(project, taskIndex);
+  });
+}
+
+function appendTaskDone(task) {
+  const taskContainer = document.querySelector('.taskContainer');
+  const taskDoneBox = document.createElement('div');
+  taskDoneBox.classList.add('taskDoneBox');
+  const taskText = document.createElement('p');
+  taskText.textContent = task;
+  const checkIcon = document.createElement('i');
+  checkIcon.classList.add('fa-solid', 'fa-check');
+  taskDoneBox.appendChild(taskText);
+  taskDoneBox.appendChild(checkIcon);
+
+  taskContainer.appendChild(taskDoneBox);
 }
 
 function loadTasks(project) {
+  let counter = 0;
   project.taskActive.forEach((e) => {
-    appendTask(e);
+    appendTask(e, counter, project);
+    counter += 1;
+  });
+
+  project.taskDone.forEach((taskDone) => {
+    appendTaskDone(taskDone);
   });
 }
 
@@ -130,13 +160,37 @@ function displayProject(project) {
   taskAdd.appendChild(taskIcon);
   taskContainer.appendChild(taskAdd);
   container.appendChild(taskContainer);
+  loadTasks(project);
 
   taskIcon.addEventListener('click', () => {
     const newTask = taskInput.value;
     if (newTask === '') return;
     storage.addTask(project, newTask);
-    loadTasks(project);
   });
+
+  const noteContainer = document.createElement('fieldset');
+  const noteLegend = document.createElement('legend');
+  noteLegend.textContent = 'Notes';
+  noteContainer.appendChild(noteLegend);
+  const notes = document.createElement('p');
+  notes.textContent = project.description;
+  noteContainer.appendChild(notes);
+  const notesIcon = document.createElement('i');
+  notesIcon.classList.add('fa-solid', 'fa-pen-to-square');
+  noteContainer.appendChild(notesIcon);
+  container.appendChild(noteContainer);
+
+  function changeNote() {
+    notes.classList.add('noteEdit');
+    notes.contentEditable = true;
+    notesIcon.removeEventListener('click', changeNote);
+    notesIcon.addEventListener('click', () => {
+      storage.changeNotes(project, notes.textContent);
+      displayProject(storage.getProject(project.title));
+    });
+  }
+
+  notesIcon.addEventListener('click', changeNote);
 }
 
 function appendNewProject(project) {
