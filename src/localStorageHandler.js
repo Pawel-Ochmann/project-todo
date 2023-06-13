@@ -1,3 +1,5 @@
+import reload from './index.js';
+
 function triggerStorageEvent() {
   const storageEvent = new Event('storage');
   window.dispatchEvent(storageEvent);
@@ -6,6 +8,7 @@ function triggerStorageEvent() {
 function putProject(project) {
   window.localStorage.setItem(project.title, JSON.stringify(project));
   triggerStorageEvent();
+  reload.loadProjects();
 }
 
 function getProject(title) {
@@ -33,6 +36,22 @@ function changePriority(project, newPriority) {
   projectUpdated.priority = newPriority;
   putProject(projectUpdated);
 }
+function addTask(project, newTask) {
+  const projectUpdated = getProject(project.title);
+  localStorage.removeItem(project);
+  projectUpdated.taskActive.push(newTask);
+  putProject(projectUpdated);
+}
+
+function removeTask(project, taskRemoved) {
+  const projectUpdated = getProject(project.title);
+  localStorage.removeItem(project);
+  projectUpdated.taskActive = projectUpdated.taskActive.filter((e) => e !== taskRemoved);
+  putProject(projectUpdated);
+}
+
+function checkTask(project) {}
+
 
 export default {
   putProject,
@@ -40,5 +59,8 @@ export default {
   clearProject,
   removeProject,
   changeDate,
-  changePriority
+  changePriority,
+  addTask,
+  removeTask,
+  checkTask,
 };

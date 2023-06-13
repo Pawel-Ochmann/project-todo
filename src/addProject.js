@@ -90,6 +90,24 @@ function displayProject(project) {
   )}`;
   dateContainer.appendChild(timeLeft);
   container.appendChild(dateContainer);
+
+  const taskContainer = document.createElement('fieldset');
+  taskContainer.classList.add('taskContainer');
+  const taskLegend = document.createElement('legend');
+  taskLegend.textContent = 'Tasks';
+  taskContainer.appendChild(taskLegend);
+  const taskAdd = document.createElement('div');
+  const taskInput = document.createElement('input');
+  const taskIcon = document.createElement('i');
+  taskIcon.classList.add('fa-solid', 'fa-plus');
+  const taskLabel = document.createElement('label');
+  taskLabel.textContent = 'Add new task: ';
+  taskLabel.appendChild(taskInput);
+  taskAdd.appendChild(taskLabel);
+  taskAdd.appendChild(taskIcon);
+  taskContainer.appendChild(taskAdd);
+  container.appendChild(taskContainer);
+
 }
 
 function appendNewProject(project) {
