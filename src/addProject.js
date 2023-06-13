@@ -3,6 +3,29 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import projectHandler from './projectHandler';
 import storage from './localStorageHandler';
 
+function appendTask(task) {
+  const taskContainer = document.querySelector('.taskContainer');
+  const taskBox = document.createElement('div');
+  taskBox.classList.add('taskBox');
+  const taskText = document.createElement('p');
+  taskText.textContent = task;
+  const checkIcon = document.createElement('i');
+  checkIcon.classList.add('fa-solid', 'fa-check');
+  const removeIcon = document.createElement('i');
+  removeIcon.classList.add('fa-solid', 'fa-trash');
+  taskBox.appendChild(taskText);
+  taskBox.appendChild(checkIcon);
+  taskBox.appendChild(removeIcon);
+
+  taskContainer.appendChild(taskBox);
+}
+
+function loadTasks(project) {
+  project.taskActive.forEach((e) => {
+    appendTask(e);
+  });
+}
+
 function changeDateFunction(project) {
   const existingDialog = document.querySelector('dialog');
   if (existingDialog) {
@@ -108,6 +131,12 @@ function displayProject(project) {
   taskContainer.appendChild(taskAdd);
   container.appendChild(taskContainer);
 
+  taskIcon.addEventListener('click', () => {
+    const newTask = taskInput.value;
+    if (newTask === '') return;
+    storage.addTask(project, newTask);
+    loadTasks(project);
+  });
 }
 
 function appendNewProject(project) {
@@ -148,7 +177,6 @@ function addNewProject(titleValue, descriptionValue, dateValue, priorityValue) {
   const priority = priorityValue;
 
   storage.putProject(projectHandler(title, description, date, priority));
-  appendNewProject(storage.getProject(title));
 }
 
 function createProject() {
