@@ -347,12 +347,13 @@ dialog.changeDateDialog {
   }
   fieldset:last-of-type {
     p {
-      padding: .5rem;
+      padding: 0.5rem;
       font-weight: 500;
     }
   }
 
   p.noteEdit {
+    min-width: 50%;
     animation: rotateBorder 0.3s infinite linear;
     background: linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
       linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
@@ -365,6 +366,28 @@ dialog.changeDateDialog {
   @keyframes rotateBorder {
     100% {
       background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
+    }
+  }
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 2vw;
+    button {
+      background-color: #fff;
+      padding: 0.5rem 2rem;
+      border: 2px solid var(--secondaryColor);
+      transition: 0.3s;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      &:hover:not([disabled]) {
+        transform: translateY(-4px);
+        background-color: var(--mainColor);
+      }
+      &:disabled {
+        border: 2px solid grey;
+      }
     }
   }
 }

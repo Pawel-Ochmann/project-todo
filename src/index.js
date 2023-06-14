@@ -24,7 +24,4 @@ function loadProjects() {
 
 loadProjects();
 
-const btnClear = document.querySelector('button.clear');
-btnClear.addEventListener('click', storage.clearProject);
-
 export default {loadProjects};

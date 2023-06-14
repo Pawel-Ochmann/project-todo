@@ -21,6 +21,7 @@ function clearProject() {
 
 function removeProject(title) {
   window.localStorage.removeItem(title);
+  window.location.reload();
 }
 
 function changeDate(project, newDate) {

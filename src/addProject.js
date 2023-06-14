@@ -78,6 +78,7 @@ function changeDateFunction(project) {
   const dateInput = document.createElement('input');
   dateInput.type = 'datetime-local';
   dateInput.value = project.date;
+  dateInput.min = new Date().toISOString().slice(0, -8);
   dateDialog.appendChild(dateInput);
   const changeButton = document.createElement('button');
   changeButton.textContent = 'Change';
@@ -191,6 +192,30 @@ function displayProject(project) {
   }
 
   notesIcon.addEventListener('click', changeNote);
+
+  const buttonContainer = document.createElement('div');
+  buttonContainer.classList.add('buttonContainer');
+  const buttonDelete = document.createElement('button');
+  buttonDelete.textContent = 'Delete Project';
+  const buttonAccomplished = document.createElement('button');
+  buttonAccomplished.textContent = 'Project Accomplished';
+  if (project.taskActive.length > 0) {
+    buttonAccomplished.disabled = true;
+  }
+  buttonContainer.appendChild(buttonDelete);
+  buttonContainer.appendChild(buttonAccomplished);
+  container.appendChild(buttonContainer);
+
+  buttonDelete.addEventListener('click', () => {
+    if (window.confirm('Do u want do delet this project?')) {
+      alert('Project has been deleted!');
+      storage.removeProject(project.title);
+    };
+  })
+  buttonAccomplished.addEventListener('click', () => {
+    window.alert('Congratulations, You accomplished another project!');
+    storage.removeProject(project.title);
+  })
 }
 
 function appendNewProject(project) {
@@ -210,7 +235,9 @@ function appendNewProject(project) {
     Date.parse(project.date)
   )}`;
   const taskCounter = document.createElement('p');
-  taskCounter.textContent = `Tasks done: ${project.taskDone.length}/${project.taskActive.length}`;
+  taskCounter.textContent = `Tasks done: ${project.taskDone.length}/${
+    project.taskDone.length + project.taskActive.length
+  }`;
   const description = document.createElement('p');
   description.textContent = `Notes: ${project.description}`;
   box.appendChild(projectHeader);
@@ -272,6 +299,7 @@ function createProject() {
   const dateInput = document.createElement('input');
   dateInput.type = 'datetime-local';
   dateInput.value = endOfToday();
+  dateInput.min = new Date().toISOString().slice(0, -8);
   dateInput.name = 'date';
   dateContainer.appendChild(dateLabel);
   dateContainer.appendChild(dateInput);
