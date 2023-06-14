@@ -207,7 +207,7 @@ function displayProject(project) {
   container.appendChild(buttonContainer);
 
   buttonDelete.addEventListener('click', () => {
-    if (window.confirm('Do u want do delet this project?')) {
+    if (window.confirm('Do You want do delete this project?')) {
       alert('Project has been deleted!');
       storage.removeProject(project.title);
     };
